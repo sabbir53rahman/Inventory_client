@@ -6,7 +6,7 @@ function layout({ children }) {
     <div className="flex">
       {/* Sidebar Component */}
       <Sidebar />
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 bg-gradient-to-br from-blue-200 to-purple-200 dark:from-gray-900 dark:to-gray-800 transition-all duration-300">{children}</div>
     </div>
   );
 }

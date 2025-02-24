@@ -54,9 +54,9 @@ const Sidebar = () => {
             isOpen={isOpen}
           />
           <SidebarItem
-            href="/inventory"
+            href="/dashboard/allProducts"
             icon={FaBoxes}
-            label="Inventory"
+            label="All Product"
             isOpen={isOpen}
           />
           <SidebarItem
