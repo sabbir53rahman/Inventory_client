@@ -2,11 +2,14 @@
 import { useEffect, useState } from "react";
 import useAuth from "@/firebase/useAuth";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ children }) => {
   const { user, isAuthLoading } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const state = useSelector((state) => state)
+  console.log(state)
 
   useEffect(() => {
     if (!isAuthLoading && !user) {

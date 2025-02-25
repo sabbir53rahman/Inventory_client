@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000"; // Adjust based on your backend
+const BASE_URL = ("https://inventory-server-oroz.onrender.com") || "http://localhost:5000" ;
+
 
 // Async Thunks
 export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {

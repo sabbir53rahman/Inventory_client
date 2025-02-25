@@ -81,7 +81,7 @@ const AddProduct = () => {
       await dispatch(addProduct(formData));
 
       if (addProductStatus === "succeeded") {
-        router.push("/dashboard/products"); // Redirect after successful product addition
+        router.push("/dashboard/allProducts"); // Redirect after successful product addition
       }
     }
   };

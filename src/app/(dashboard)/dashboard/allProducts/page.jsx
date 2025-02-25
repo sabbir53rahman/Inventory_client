@@ -1,23 +1,42 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Table, Button, Space, Input } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { Table, Button, Space, Input, Pagination } from "antd";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { fetchProducts } from "@/redux/features/productSlice/productSlice";
+import axios from "axios";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
-  const { products, status, error } = useSelector((state) => state.products);
+  const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemPerPage, setItemPerPage] = useState(1);
+  const totalItems = products.length;
+
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/products?page=${currentPage}&size=${itemPerPage}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setProducts(res?.data);
+      })
+      .catch((err) => {
+        console.error("Error fetching products:", err);
+      });
+  }, [currentPage, itemPerPage, BASE_URL]);
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page - 1); 
+    setItemPerPage(pageSize);
+  };
 
   const columns = [
     {
@@ -60,17 +79,11 @@ const ProductsPage = () => {
     console.log("Updating product", product);
   };
 
-  if (status === "loading") {
-    return <div className="text-center text-lg">Loading...</div>;
-  }
-
-  if (status === "failed") {
-    return <div className="text-center text-red-500">Error: {error}</div>;
-  }
-
   return (
-    <div className=" p-6  ">
-      <h1 className="text-3xl dark:text-white font-bold mb-4 text-center">Products</h1>
+    <div className="p-6">
+      <h1 className="text-3xl dark:text-white font-bold mb-4 text-center">
+        Products
+      </h1>
 
       {/* Search Input */}
       <div className="mb-4 flex justify-center">
@@ -78,17 +91,21 @@ const ProductsPage = () => {
           placeholder="Search products..."
           className="w-full max-w-md p-2 rounded-md border dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-white"
           onChange={(e) => setSearchTerm(e.target.value)}
-        /> 
+        />
       </div>
 
       {/* Table */}
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
         <Table
           rowKey="_id"
-          dataSource={filteredProducts}
+          dataSource={products}
           columns={columns}
-          pagination={{ pageSize: 4 }}
-          loading={status === "loading"}
+          pagination={{
+            current: currentPage + 1, 
+            pageSize: itemPerPage,
+            total: totalItems,
+            onChange: handlePageChange,
+          }}
           className="dark:text-white"
         />
       </div>

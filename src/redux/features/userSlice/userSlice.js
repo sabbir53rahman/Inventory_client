@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000"; // Change this to your actual server URL
+const API_URL = "http://localhost:5000" || "https://inventory-server-oroz.onrender.com"; // Change this to your actual server URL
 
 // **Register User**
 export const addUser = createAsyncThunk("user/register", async (userData, { rejectWithValue }) => {
