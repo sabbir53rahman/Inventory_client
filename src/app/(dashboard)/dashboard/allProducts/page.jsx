@@ -15,9 +15,10 @@ const ProductsPage = () => {
 
   useEffect(() => {
     if (pagination?.currentPage !== undefined && pagination?.pageSize !== undefined) {
-      dispatch(fetchProducts({ page: pagination.currentPage, size: pagination.pageSize ,serach:pagination.searchItem }));
+      dispatch(fetchProducts({ page: pagination.currentPage, size: pagination.pageSize, search: searchItem }));
     }
-  }, [dispatch, pagination?.currentPage, pagination?.pageSize ,pagination?.searchItem]);
+  }, [dispatch, pagination?.currentPage, pagination?.pageSize, searchItem]); 
+  
 
   const handlePageChange = (page, pageSize) => {
     dispatch(fetchProducts({ page, size: pageSize , search: searchItem }));
