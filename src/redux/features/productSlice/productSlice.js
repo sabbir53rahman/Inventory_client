@@ -7,15 +7,17 @@ const BASE_URL = "https://inventory-server-oroz.onrender.com" || "http://localho
 // Fetch products 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async ({ page, size }, { rejectWithValue }) => {
+  async ({ page, size, search }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${BASE_URL}/products?page=${page}&size=${size}`);
-      return response;
+      const response = await axios.get(`${BASE_URL}/products?page=${page}&size=${size}&search=${search}`);
+      console.log(response)
+      return response.data; 
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to fetch products");
     }
   }
 );
+
 
 
 // Add new product
@@ -39,7 +41,7 @@ const productSlice = createSlice({
     error: null,
     pagination: {
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 1,
       totalItems: 0,
       totalPages: 0,
     },

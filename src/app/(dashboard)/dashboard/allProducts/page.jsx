@@ -11,16 +11,16 @@ const ProductsPage = () => {
 
   const { products, status, pagination = {} } = useSelector((state) => state.products);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchItem, setSearchItem] = useState("");
 
   useEffect(() => {
     if (pagination?.currentPage !== undefined && pagination?.pageSize !== undefined) {
-      dispatch(fetchProducts({ page: pagination.currentPage, size: pagination.pageSize }));
+      dispatch(fetchProducts({ page: pagination.currentPage, size: pagination.pageSize ,serach:pagination.searchItem }));
     }
-  }, [dispatch, pagination?.currentPage, pagination?.pageSize]);
+  }, [dispatch, pagination?.currentPage, pagination?.pageSize ,pagination?.searchItem]);
 
   const handlePageChange = (page, pageSize) => {
-    dispatch(fetchProducts({ page, size: pageSize }));
+    dispatch(fetchProducts({ page, size: pageSize , search: searchItem }));
   };
 
   const columns = [
@@ -62,7 +62,7 @@ const ProductsPage = () => {
         <Input
           placeholder="Search products..."
           className="w-full max-w-md p-2 rounded-md border dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-white"
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => setSearchItem(e.target.value)}
         />
       </div>
 
