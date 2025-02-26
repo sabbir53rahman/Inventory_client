@@ -1,31 +1,48 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = ("https://inventory-server-oroz.onrender.com") || "http://localhost:5000" ;
+const BASE_URL = "https://inventory-server-oroz.onrender.com" || "http://localhost:5000";
 
 
-// Async Thunks
-export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-  const response = await axios.get(`${BASE_URL}/products`);
-  return response.data;
-});
-
-export const addProduct = createAsyncThunk("products/addProduct", async (product, { rejectWithValue }) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/products`, product);
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response?.data || "Something went wrong");
+// Fetch products 
+export const fetchProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async ({ page, size }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/products?page=${page}&size=${size}`);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch products");
+    }
   }
-});
+);
 
-// Slice
+
+// Add new product
+export const addProduct = createAsyncThunk(
+  "products/addProduct",
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/products`, product);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  } 
+);
+// Redux Slice
 const productSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
     status: "idle",
     error: null,
+    pagination: {
+      currentPage: 1,
+      pageSize: 10,
+      totalItems: 0,
+      totalPages: 0,
+    },
     addProductStatus: "idle",
     addProductError: null,
   },
@@ -37,8 +54,10 @@ const productSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
+        console.log("API Response:", action.payload);
         state.status = "succeeded";
-        state.products = action.payload;
+        state.products = action.payload.products; 
+        state.pagination = action.payload.meta; 
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
@@ -51,7 +70,7 @@ const productSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.addProductStatus = "succeeded";
-        state.products.push(action.payload.data);
+        state.products.push(action.payload);
       })
       .addCase(addProduct.rejected, (state, action) => {
         state.addProductStatus = "failed";
