@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
   const { user, isAuthLoading } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const state = useSelector((state) => state)
+  const state = useSelector((state) => state.users)
   console.log(state)
 
   useEffect(() => {

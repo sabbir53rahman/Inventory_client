@@ -7,21 +7,31 @@ import { fetchProducts } from "@/redux/features/productSlice/productSlice";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
-  
 
-  const { products, status, pagination = {} } = useSelector((state) => state.products);
-
+  const {
+    products,
+    status,
+    pagination = {},
+  } = useSelector((state) => state.products);
   const [searchItem, setSearchItem] = useState("");
 
   useEffect(() => {
-    if (pagination?.currentPage !== undefined && pagination?.pageSize !== undefined) {
-      dispatch(fetchProducts({ page: pagination.currentPage, size: pagination.pageSize, search: searchItem }));
+    if (
+      pagination?.currentPage !== undefined &&
+      pagination?.pageSize !== undefined
+    ) {
+      dispatch(
+        fetchProducts({
+          page: pagination.currentPage,
+          size: pagination.pageSize,
+          search: searchItem,
+        })
+      );
     }
-  }, [dispatch, pagination?.currentPage, pagination?.pageSize, searchItem]); 
-  
+  }, [dispatch, pagination?.currentPage, pagination?.pageSize, searchItem]);
 
   const handlePageChange = (page, pageSize) => {
-    dispatch(fetchProducts({ page, size: pageSize , search: searchItem }));
+    dispatch(fetchProducts({ page, size: pageSize, search: searchItem }));
   };
 
   const columns = [
@@ -44,7 +54,9 @@ const ProductsPage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
-          <Button type="primary" onClick={() => handleUpdate(record)}>Update</Button>
+          <Button type="primary" onClick={() => handleUpdate(record)}>
+            Update
+          </Button>
         </Space>
       ),
     },
@@ -55,8 +67,10 @@ const ProductsPage = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl dark:text-white font-bold mb-4 text-center">Products</h1>
+    <div className="p-4 md:p-6">
+      <h1 className="text-2xl md:text-3xl dark:text-white font-bold mb-4 text-center">
+        Products
+      </h1>
 
       {/* Search Input */}
       <div className="mb-4 flex justify-center">
@@ -67,27 +81,29 @@ const ProductsPage = () => {
         />
       </div>
 
-      {/* Table */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
-        <Table
-          rowKey="_id"
-          dataSource={products}
-          columns={columns}
-          pagination={false} 
-          loading={status === "loading"}
-          className="dark:text-white"
-        />
-
-        {/* Custom Pagination */}
-        <div className="flex justify-center mt-4">
-          <Pagination
-            current={pagination?.currentPage || 1}
-            pageSize={pagination?.pageSize || 10}
-            total={pagination?.totalItems || 0}
-            onChange={handlePageChange}
-            showSizeChanger
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg overflow-x-auto">
+        <div className="w-full">
+          <Table
+            rowKey="_id"
+            dataSource={products}
+            columns={columns}
+            pagination={false}
+            loading={status === "loading"}
+            className="dark:text-white"
+            
           />
         </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-4">
+        <Pagination
+          current={pagination?.currentPage || 1}
+          pageSize={pagination?.pageSize || 10}
+          total={pagination?.totalItems || 0}
+          onChange={handlePageChange}
+          showSizeChanger
+        />
       </div>
     </div>
   );
