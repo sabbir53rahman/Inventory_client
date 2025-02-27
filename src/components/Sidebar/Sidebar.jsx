@@ -57,7 +57,7 @@ const SidebarItem = ({ href, icon: Icon, label, isMobile }) => {
   return (
     <Link
       href={href}
-      className="group flex items-center gap-3 p-3 rounded-lg 
+      className="group z-0 flex items-center gap-3 p-3 rounded-lg 
                   bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 
                   shadow-md transition-all duration-200 
                   hover:bg-gradient-to-r hover:from-[#6a11cb] hover:to-[#2575fc] 

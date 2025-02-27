@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000" || "https://inventory-server-oroz.onrender.com"; // Change this to your actual server URL
+const BASE_URL = "https://inventory-server-oroz.onrender.com" || "http://localhost:5000";
 
 // **Register User**
 export const addUser = createAsyncThunk("user/register", async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${API_URL}/users`, userData);
+    const response = await axios.post(`${BASE_URL}/users`, userData);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -16,7 +16,7 @@ export const addUser = createAsyncThunk("user/register", async (userData, { reje
 // **Fetch Current User**
 export const fetchCurrentUser = createAsyncThunk("user/fetchCurrentUser", async (userData, { rejectWithValue }) => {
   try {
-    const response = await axios.post(`${API_URL}/currentUser`, userData);
+    const response = await axios.post(`${BASE_URL}/currentUser`, userData);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data);
