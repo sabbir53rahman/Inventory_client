@@ -1,8 +1,9 @@
+import Dashboard from "./(dashboard)/dashboard/layout";
 
 export default function Home() {
     return (
       <>
-        <div>Hello From Home page</div>
+        <Dashboard/>
       </>
     );
   }
