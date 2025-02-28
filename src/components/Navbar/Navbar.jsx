@@ -50,11 +50,10 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
           </Link>
         </div>
 
-        {/* Right Section (Dark Mode + Auth Buttons) */}
         <div className="flex items-center space-x-4">
           <button
             onClick={toggleDarkMode}
-            className="relative flex items-center justify-between w-[70px] h-[35px] rounded-full bg-gray-200 dark:bg-gray-800 transition-all duration-300"
+            className="relative flex items-center justify-between w-[70px] h-[35px] rounded-full bg-gray-200 dark:bg-gray-900 transition-all duration-300"
           >
             {/* Sun Icon */}
             <BsSunFill
