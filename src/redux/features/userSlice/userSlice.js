@@ -23,10 +23,21 @@ export const fetchCurrentUser = createAsyncThunk("user/fetchCurrentUser", async 
   }
 });
 
+// **Fetch All Users**
+export const fetchAllUsers = createAsyncThunk("user/fetchAllUsers", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/users`);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null,
+    user: null,        
+    allUsers: [],     
     isLoading: false,
     error: null,
   },
@@ -58,6 +69,18 @@ const userSlice = createSlice({
         state.user = action.payload.data;
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(fetchAllUsers.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.allUsers = action.payload; 
+      })
+      .addCase(fetchAllUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload.message;
       });

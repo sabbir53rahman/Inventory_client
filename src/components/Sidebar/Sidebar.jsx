@@ -45,7 +45,7 @@ const Sidebar = () => {
           <SidebarItem href="/dashboard/addProduct" icon={FaTshirt} label="Add Product" isMobile={isMobile} />
           <SidebarItem href="/dashboard/allProducts" icon={FaBoxes} label="All Product" isMobile={isMobile} />
           <SidebarItem href="/analytics" icon={FaChartLine} label="Analytics" isMobile={isMobile} />
-          <SidebarItem href="/customers" icon={FaUsers} label="Customers" isMobile={isMobile} />
+          <SidebarItem href="/dashboard/manageUser" icon={FaUsers} label="Customers" isMobile={isMobile} />
           <SidebarItem href="/settings" icon={FaCog} label="Settings" isMobile={isMobile} />
         </nav>
       </div>

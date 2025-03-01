@@ -40,12 +40,11 @@ const AddProduct = () => {
     }
 
     if (formData.image) {
-      // Create a FormData object to handle the image upload
+
       const imageData = new FormData();
       imageData.append("image", formData.image);
 
       try {
-        // Upload the image to imgbb
         const response = await fetch(image_hosting_api, {
           method: "POST",
           body: imageData,
@@ -54,20 +53,18 @@ const AddProduct = () => {
         const data = await response.json();
 
         if (data.success) {
-          // If the image upload is successful, set the image URL in the formData
           const imageUrl = data.data.url;
           
           const productData = {
             ...formData,
-            image: imageUrl, // Add the image URL to the formData
+            image: imageUrl,
           };
           console.log(productData)
-          // Dispatch the action to add the product with the image URL
 
           await dispatch(addProduct(productData));
 
           if (addProductStatus === "succeeded") {
-            router.push("/dashboard/products"); // Redirect after successful product addition
+            router.push("/dashboard/products"); 
           }
         } else {
           alert("Image upload failed. Please try again.");
@@ -77,11 +74,10 @@ const AddProduct = () => {
         alert("Error uploading image. Please try again.");
       }
     } else {
-      // If no image is provided, dispatch the product data without an image
       await dispatch(addProduct(formData));
 
       if (addProductStatus === "succeeded") {
-        router.push("/dashboard/allProducts"); // Redirect after successful product addition
+        router.push("/dashboard/allProducts"); 
       }
     }
   };
