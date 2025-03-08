@@ -90,7 +90,7 @@ const OrderTable = () => {
       key: "customer",
       render: (_, order) => (
         <div>
-          <div className="font-semibold text-gray-800 dark:text-gray-200">
+          <div className="font-semibold text-gray-800 ">
             {order.customerName}
           </div>
           <div className="text-gray-500 dark:text-gray-400 text-sm">
@@ -112,7 +112,7 @@ const OrderTable = () => {
             height={40}
             className="object-cover mr-2"
           />
-          <span className="font-semibold text-gray-800 dark:text-gray-200">
+          <span className="font-semibold text-gray-800 ">
             {order.productName}
           </span>
         </div>
@@ -122,7 +122,7 @@ const OrderTable = () => {
       title: "Total Price",
       dataIndex: "singleProductTotalPrice",
       key: "singleProductTotalPrice",
-      render: (text) => <span className="dark:text-gray-200">${text}</span>,
+      render: (text) => <span className="">${text}</span>,
     },
   ];
 
@@ -155,7 +155,7 @@ const OrderTable = () => {
           dataSource={orders}
           rowKey="id"
           pagination={{ pageSize: 5 }}
-          className="overflow-x-auto dark:text-gray-200"
+          className="overflow-x-auto "
         />
       )}
 
