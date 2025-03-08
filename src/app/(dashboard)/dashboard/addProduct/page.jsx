@@ -16,15 +16,18 @@ const AddProduct = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    quantity: "",
+    quantity: 0,  // Default as number
     description: "",
-    price: "",
+    price: 0,      // Default as number
     image: null,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === "price" || name === "quantity" ? Number(value) : value,
+    }));
   };
 
   const handleImageChange = (e) => {
